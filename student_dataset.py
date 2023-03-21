@@ -4,6 +4,7 @@ import sklearn
 from sklearn import linear_model
 from sklearn.utils import shuffle
 import matplotlib.pyplot as pyplot
+from matplotlib.pyplot import style
 import pickle
 
 data = pd.read_csv("student/student-mat.csv", sep=";")
@@ -22,6 +23,8 @@ y = np.array(data[predict])
 
 x_train, x_test, y_train, y_test = sklearn.model_selection.train_test_split(x, y, test_size = 0.1)
 
+# Commenting after storing the trained model into student_model.pickle file
+'''
 linear = linear_model.LinearRegression()
 
 # Training the model
@@ -29,12 +32,31 @@ linear.fit(x_train, y_train)
 
 # Testing the model with accuracy
 acc = linear.score(x_test, y_test)
+'''
+
+# Saving the training model so that we won't have to load 
+'''
+with open("student_model.pickle",'wb') as f:
+
+    pickle.dump(linear, f)
+
+pickle_in = open("student_model.pickle","rb")
+'''
+pickle_in = open("student_model.pickle","rb")
+linear = pickle.load(pickle_in)
 
 predictions = linear.predict(x_test)
 
 for i in range(len(predictions)):
     print(predictions[i], x_test[i], y_test[i])
 
+p = "G1"
+
+style.use("ggplot")
+pyplot.scatter(data[p],data[predict])
+pyplot.xlabel(p)
+pyplot.ylabel("Final Grades")
+pyplot.show()
 
 
 # data = pd.read_csv("student-mat.csv", sep=";")
